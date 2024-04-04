@@ -1,47 +1,19 @@
 from flask import jsonify, request, Blueprint
 from ..commands.create  import  Create
-from ..commands.reset import Reset
-from ..commands.list import List
-from ..commands.detail import Detail
-from ..commands.delete import Delete
+from ..commands.get import Detail
 
-routes_blueprint  = Blueprint('routes', __name__)
+routes_blueprint  = Blueprint('emails', __name__)
 
-@routes_blueprint.route('/routes', methods=['POST'])
-def create_route():
+@routes_blueprint.route('/blacklists', methods=['POST'])
+def create_email():
     request_json = request.get_json()
-    result = Create(request_json.get('flightId', None), request_json.get('sourceAirportCode', None),
-                    request_json.get('sourceCountry', None), request_json.get('destinyAirportCode', None),
-                    request_json.get('destinyCountry', None), request_json.get('bagCost', None),
-                    request_json.get('plannedStartDate', None), request_json.get('plannedEndDate', None),
-                    request.headers.get('Authorization', None)).execute()
-    return jsonify({'id': result['id'], 'createdAt': result['createdAt']}), 201
-
-@routes_blueprint.route('/routes', methods = ['GET'])
-def viewFilter():
-    if request.args.get('flight') is None:
-        flightId = None
-    else:
-        flightId = request.args.get('flight')
-    result = List(flightId, request.headers.get('Authorization', None)).execute() 
-    return jsonify(result)
-
-@routes_blueprint.route('/routes/<string:id>', methods = ['GET'])
-def view(id):
-    print(id)
-    result = Detail(id, request.headers.get('Authorization', None)).execute()
-    return jsonify(result) 
-
-@routes_blueprint.route('/routes/<string:id>', methods = ['DELETE'])
-def delete(id):
-    result = Delete(id, request.headers.get('Authorization', None)).execute()
-    return jsonify({ 'msg': result['msg'] }), 200
-
-@routes_blueprint.route("/routes/ping", methods=['GET'])
-def healthcheck():
-    return jsonify('pong'), 200
-
-@routes_blueprint.route("/routes/reset", methods=['POST'])
-def reset():
-    Reset().execute()
-    return jsonify({"msg": "Todos los datos fueron eliminados"})
+    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr).split(',')[0]  # Simplified IP retrieval
+    result = Create(
+                    request_json.get('email', None),
+                    request_json.get('app_id', None),
+                    request_json.get('motivo', None),
+                    client_ip,                    
+                    request.headers.get('Authorization', None),
+                    client_ip
+                    ).execute()
+    return jsonify({'id': result['id'], 'createdAt': result['createdAt'], 'email': result['email']}), 201

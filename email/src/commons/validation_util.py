@@ -1,6 +1,6 @@
 from src.errors.errors import BadRequestException, FlightIdAlreadyExits, InvalidDate, TokenInvalid, NotToken
 from ..models.model import db
-from ..models.route import Route
+from ..models.email import Route
 from datetime import datetime, date
 import uuid
 import requests
@@ -42,12 +42,11 @@ def validate_date_range(startdate, enddate):
     except ValueError:
         raise InvalidDate
 
-def validate_user_identity(token):
-    response = requests.get(os.environ.get('USERS_PATH', "http://localhost:3000") + "/users/me", headers={"Authorization":token})
-    if response.status_code == 401:
+def validate_user_identity(received_token):
+    expected_token = os.environ.get('TOKEN', None)
+    
+    if not expected_token or received_token != expected_token:
         raise TokenInvalid
-    if response.status_code == 403:
-        raise NotToken
     
 def validate_values_UUID(variable):
     try:

@@ -1,6 +1,6 @@
 from flask import Flask, make_response, jsonify
 from .models.model import db
-from .blueprints.routes import routes_blueprint
+from .blueprints.email import routes_blueprint
 from .errors.errors import ApiException
 import os
 

@@ -1,6 +1,6 @@
 from flask import Flask, make_response, jsonify
 from .models.model import db
-from .blueprints.email import routes_blueprint
+from .blueprints.email import emails_blueprint
 from .errors.errors import ApiException
 import os
 
@@ -13,7 +13,7 @@ db_uri = f'postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_SQLITE', db_uri)
-app.register_blueprint(routes_blueprint)
+app.register_blueprint(emails_blueprint)
 
 app_context = app.app_context()
 app_context.push()

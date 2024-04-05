@@ -1,0 +1,37 @@
+version: '3'
+services:
+  email:
+    build: email
+    ports:
+      - "3000:3000"
+    environment:
+      DB_NAME: monitor_email
+      DB_HOST: email_db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      EMAIL_PATH: http://email:3000
+      TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE1OTYwNzYwMjJ9.7
+    networks:
+      - email_net
+    depends_on:
+      email_db:
+        condition: service_healthy
+  email_db:
+    image: postgres
+    environment:
+      POSTGRES_DB: monitor_email
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    networks:
+      - email_net  
+  
+networks:
+  email_net:
+    driver: bridge
+  

@@ -20,7 +20,8 @@ def validate_at_least_one_not_blank(*fields):
 
 def validate_user_identity(received_token):
     expected_token = os.environ.get('TOKEN', None)
-    
+    print(received_token)
+    print(expected_token)
     if not expected_token or received_token != expected_token:
         raise TokenInvalid
     

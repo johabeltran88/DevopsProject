@@ -13,6 +13,5 @@ def create_email():
                     request_json.get('motivo', None),
                     client_ip,                    
                     request.headers.get('Authorization', None),
-                    client_ip
                     ).execute()
     return jsonify({'id': result['id'], 'createdAt': result['createdAt'], 'email': result['email']}), 201

@@ -7,7 +7,9 @@ emails_blueprint  = Blueprint('emails', __name__)
 @emails_blueprint.route('/blacklists', methods=['POST'])
 def create_email():
     request_json = request.get_json()
+    print("Requests called")
     client_ip = request.headers.get('X-Forwarded-For', request.remote_addr).split(',')[0]  # Simplified IP retrieval
+    print("IP step")
     result = Create(
                     request_json.get('email', None),
                     request_json.get('app_id', None),
@@ -15,6 +17,7 @@ def create_email():
                     client_ip,                    
                     request.headers.get('Authorization', None),
                     ).execute()
+    print("Result step")
     return jsonify({'id': result['id'], 'createdAt': result['createdAt'], 'email': result['email']}), 201
 
 @emails_blueprint.route('/blacklists', methods=['GET'])

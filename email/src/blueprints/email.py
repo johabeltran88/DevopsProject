@@ -31,7 +31,8 @@ def get_emails():
 
 @emails_blueprint.route('/blacklists/<string:email>', methods=['GET'])
 def get_email(email):
-    json = request.get_json()
+    print("Entrando")
+    ##json = request.get_json()
     result = GetEmail(email, request.headers.get('Authorization', None)).execute()
     if not result:
         return jsonify({'existeEmail': False, 'Motivo': ''})

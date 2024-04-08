@@ -18,7 +18,7 @@ class NotToken(ApiException):
     code = 403
     description = None
 
-class FlightIdAlreadyExits(ApiException):
+class EmailAlreadyExits(ApiException):
     code = 412
     description = None
 

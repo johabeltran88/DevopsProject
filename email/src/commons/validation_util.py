@@ -1,4 +1,4 @@
-from src.errors.errors import BadRequestException, FlightIdAlreadyExits, InvalidDate, TokenInvalid, NotToken
+from src.errors.errors import BadRequestException, InvalidDate, TokenInvalid, NotToken
 from ..models.model import db
 from ..models.email import Email
 from datetime import datetime, date
@@ -19,10 +19,10 @@ def validate_at_least_one_not_blank(*fields):
     raise BadRequestException
 
 def validate_user_identity(received_token):
-    expected_token = os.environ.get('TOKEN', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE1OTYwNzYwMjJ9.7')
-    received_token = received_token.split(" ")[1]
     if not received_token:
         raise NotToken
+    expected_token = os.environ.get('TOKEN', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE1OTYwNzYwMjJ9.7')
+    received_token = received_token.split(" ")[1]
     if received_token != expected_token:
         raise TokenInvalid
     

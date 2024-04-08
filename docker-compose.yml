@@ -19,6 +19,8 @@ services:
         condition: service_healthy
   email_db:
     image: postgres
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_DB: monitor_email
       POSTGRES_USER: postgres

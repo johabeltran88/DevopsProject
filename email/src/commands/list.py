@@ -10,7 +10,7 @@ class ListEmails(BaseCommand, ABC):
         self.token = token
 
     def execute(self):
-        #self.validate_user_identity(self.token)
+        self.validate_user_identity(self.token)
 
         emails = Email.query.all()
         if not emails:

@@ -25,5 +25,4 @@ class Emails_Test(TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertIsNotNone(json.loads(response.get_data())['id'])
         self.assertIsNotNone(json.loads(response.get_data())['createdAt'])
-
     

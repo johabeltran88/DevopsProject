@@ -12,9 +12,9 @@ class  Create(BaseCommand, ABC):
 		self.motivo = motivo
 		self.ip = ip
 		self.token = token
-
+		
 	def  execute(self):
-		#validate_user_identity(self.token)
+		validate_user_identity(self.token)
 		validate_not_blank(self.email, self.app_id, self.motivo, self.ip)		
 		email = Email(
 			email = self.email,

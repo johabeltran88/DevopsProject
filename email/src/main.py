@@ -8,7 +8,7 @@ db_user = os.environ.get('DB_ROUTE', "postgres")
 db_password = os.environ.get('DB_PASSWORD', "postgres")
 db_host = os.environ.get('DB_HOST', "127.0.0.1")
 db_port = os.environ.get('DB_PORT', "5432")
-db_name = os.environ.get('DB_NAME', "monitor_routes")
+db_name = os.environ.get('DB_NAME', "monitor_email")
 db_uri = f'postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
 
 app = Flask(__name__)

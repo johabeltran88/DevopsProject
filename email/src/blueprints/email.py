@@ -1,6 +1,7 @@
 from flask import jsonify, request, Blueprint
 from ..commands.create  import  Create
 from ..commands.list  import  ListEmails
+from ..commands.getEmail import GetEmail
 
 emails_blueprint  = Blueprint('emails', __name__)
 
@@ -24,3 +25,11 @@ def get_emails():
                     request.headers.get('Authorization', None)
                     ).execute()
     return jsonify({'id': result['id'], 'createdAt': result['createdAt'], 'email': result['email'], 'ip': result['ip']}), 200
+
+@emails_blueprint.route('/blacklists/<string:email>', methods=['GET'])
+def get_email(email):
+    json = request.get_json()
+    result = GetEmail(email, request.headers.get('Authorization', None)).execute()
+    if not result:
+        return jsonify({'existeEmail': False, 'Motivo': ''})
+    return jsonify({'existeEmail': True, 'Motivo': result['motivo']})

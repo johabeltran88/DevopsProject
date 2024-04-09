@@ -6,9 +6,9 @@ import os
 
 db_user = os.environ.get('DB_ROUTE', "postgres")
 db_password = os.environ.get('DB_PASSWORD', "postgres")
-db_host = os.environ.get('DB_HOST', "127.0.0.1")
+db_host = os.environ.get('DB_HOST', "awseb-e-zcp56ys2ah-stack-awsebrdsdatabase-jixi4k81ibcd.cv8808gm29x7.us-east-2.rds.amazonaws.com")
 db_port = os.environ.get('DB_PORT', "5432")
-db_name = os.environ.get('DB_NAME', "monitor_email")
+db_name = os.environ.get('DB_NAME', "ebdb")
 db_uri = f'postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
 
 app = Flask(__name__)

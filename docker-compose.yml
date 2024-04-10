@@ -1,7 +1,7 @@
 version: '3'
 services:
   email:
-    build: email
+    build: ./
     ports:
       - "3000:3000"
     environment:
@@ -10,8 +10,7 @@ services:
       DB_PORT: 5432
       DB_USER: postgres
       DB_PASSWORD: postgres
-      EMAIL_PATH: http://email:3000
-      TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE1OTYwNzYwMjJ9.7
+      TOKEN: 40797d32-4825-4391-a2c3-051ab9e79a77
     networks:
       - email_net
     depends_on:
@@ -31,8 +30,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - email_net  
-  
+      - email_net
 networks:
   email_net:
     driver: bridge

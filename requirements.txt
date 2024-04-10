@@ -1,0 +1,17 @@
+wheel
+flask
+marshmallow
+python-abc
+python-dotenv
+pytest
+pytest-cov
+pytest-mock
+pytest-env
+sqlalchemy
+psycopg2-binary
+Flask-SQLAlchemy
+marshmallow-sqlalchemy
+importlib_metadata
+Faker
+requests
+sqlalchemy_utils

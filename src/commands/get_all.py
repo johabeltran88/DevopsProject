@@ -5,13 +5,12 @@ from ..commons.validation_util import validate_user_identity
 from ..models.email import Email, ModelSchema
 
 
-class ListEmails(BaseCommand, ABC):
+class GetAll(BaseCommand, ABC):
     def __init__(self, token):
         self.token = token
 
     def execute(self):
-        self.validate_user_identity(self.token)
-
+        validate_user_identity(self.token)
         emails = Email.query.all()
         if not emails:
             return []

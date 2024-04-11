@@ -33,3 +33,8 @@ def is_email_in_blacklist(email):
         request.headers.get('Authorization', None)
     ).execute()
     return jsonify(result)
+
+
+@controller_blueprint.route("/healthcheck", methods=['GET'])
+def healthcheck():
+    return jsonify('Service up!'), 200

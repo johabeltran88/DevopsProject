@@ -19,7 +19,25 @@ class ControllerTest(TestCase):
         response = self.test_client.post(
             '/blacklists',
             data=json.dumps(email),
-            headers={'Content-Type': 'application/json', 'Authorization': '40797d32-4825-4391-a2c3-051ab9e79a77'})
+            headers={'Content-Type': 'application/json', 'Authorization': 'Bearer 40797d32-4825-4391-a2c3-051ab9e79a77'})
         self.assertEqual(response.status_code, 201)
         self.assertIsNotNone(json.loads(response.get_data())['id'])
         self.assertIsNotNone(json.loads(response.get_data())['createdAt'])
+
+    def test_is_email_in_black_list(self):
+        email = {
+            'email': self.faker.email(),
+            'app_uuid': str(uuid.uuid4()),
+            'blocked_reason': self.faker.text(),
+        }
+        self.test_client.post(
+            '/blacklists',
+            data=json.dumps(email),
+            headers={'Content-Type': 'application/json', 'Authorization': 'Bearer 40797d32-4825-4391-a2c3-051ab9e79a77'})
+        response = self.test_client.get(
+            '/blacklists/' + email['email'],
+            headers={'Content-Type': 'application/json', 'Authorization': 'Bearer 40797d32-4825-4391-a2c3-051ab9e79a77'})
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNotNone(json.loads(response.get_data())['is_in_blacklist'])
+        self.assertTrue(json.loads(response.get_data())['is_in_blacklist'])
+        self.assertEqual(json.loads(response.get_data())['blocked_reason'], email['blocked_reason'])
